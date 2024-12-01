@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  pg:
+    image: postgres
+    environment:
+      POSTGRES_DB: cargo
+      POSTGRES_USER: Arseniy
+      POSTGRES_PASSWORD: 12345
+    ports:
+      - "5434:5432"
+
+  # fastapi_app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - pg
+  #   ports:
+  #     - "8000:8000"
