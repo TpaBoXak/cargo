@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from contextlib import asynccontextmanager
 
 from .base import Base
+from .rate import Rate
 
 class DataBaseHelper:
     def __init__(
