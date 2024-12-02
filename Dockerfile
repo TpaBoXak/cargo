@@ -2,13 +2,13 @@ FROM python:3.11.9-slim
 
 WORKDIR /fastapi
 
+COPY ./start_app.sh /fastapi/start_app.sh
 COPY ./app /fastapi/app
 COPY ./alembic /fastapi/alembic
 COPY ./main.py /fastapi
 COPY ./alembic.ini /fastapi
 COPY ./config.py /fastapi
 COPY ./requirements.txt /fastapi
-COPY ./start_app.sh /fastapi
 COPY ./pyproject.toml /fastapi
 
 RUN pip install poetry
