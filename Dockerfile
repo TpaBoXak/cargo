@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.11.9-slim
 
 WORKDIR /fastapi
 
@@ -11,16 +11,18 @@ COPY ./requirements.txt /fastapi
 COPY ./start.sh /fastapi
 COPY ./pyproject.toml /fastapi
 
-
-RUN pip install --no-cache-dir -r /fastapi/requirements.txt
+RUN pip install poetry
+RUN poetry config virtualenvs.create false
 
 RUN echo "APP_CONF__DB__URL=postgresql+asyncpg://Arseniy:12345@pg:5432/cargo" > /fastapi/.env && \
     echo "APP_CONF__RUN__HOST=0.0.0.0" >> /fastapi/.env && \
-    echo "APP_CONF__RUN__PORT=8000" >> /fastapi/.env
+    echo "APP_CONF__RUN__PORT=8000" >> /fastapi/.env && \
+    echo "APP_CONF__KAFKA__BOOTSTRAP_SERVERS=kafka://kafka:9092" >> /fastapi/.env && \
+    echo "APP_CONF__KAFKA__TOPIC=cargo_logs" >> /fastapi/.env
 
 
 RUN echo "APP_CONF__DB__ECHO=1" > /fastapi/.env.template
 
 RUN chmod +x /fastapi/start.sh
 
-CMD ["/fastapi/start.sh"]
+ENTRYPOINT ["/fastapi/start.sh"]

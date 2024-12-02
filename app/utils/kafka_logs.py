@@ -31,6 +31,7 @@ class KafkaLogger:
         await self.producer.send_and_wait(self.topic, json.dumps(message).encode("utf-8"))
 
 kafka_logger = KafkaLogger(settings.kafka.bootstrap_servers, settings.kafka.topic)
+print("kafka url:", kafka_logger.servers)
 
 
 def kafka_log_action(action: str):

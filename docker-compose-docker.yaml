@@ -25,17 +25,19 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_CREATE_TOPICS: cargo_logs
     ports:
       - "9092:9092"
 
-  # fastapi_app:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   depends_on:
-  #     - pg
-  #   ports:
-  #     - "8000:8000"
+  fastapi_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - pg
+      - kafka
+      - zookeeper
+    ports:
+      - "8000:8000"
