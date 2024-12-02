@@ -17,6 +17,7 @@ from app.schemas.rates import (
 )
 from app.schemas.responses import SuccessResponse
 import app.dao.rates as rate_dao
+from app.utils.kafka_logs import kafka_log_action
 
 
 router: APIRouter = APIRouter(prefix=settings.api.cargo_prefix)
@@ -29,6 +30,7 @@ router: APIRouter = APIRouter(prefix=settings.api.cargo_prefix)
         500: {"description": "Ошибка сервера при добавлении данных"}
     },
 )
+@kafka_log_action("add_several_rate")
 async def add_rate(
     data: dict[date, list[RateWithoutDateSchema]],
     session: AsyncSession = Depends(db_helper.session_getter),
@@ -74,6 +76,7 @@ async def add_rate(
         500: {"description": "Ошибка сервера при добавлении данных"}
     },
 )
+@kafka_log_action("add_rate")
 async def add_rate(
     rate_schema: RateBaseSchema,
     session: AsyncSession = Depends(db_helper.session_getter),
@@ -110,6 +113,7 @@ async def add_rate(
         500: {"description": "Ошибка сервера при добавлении данных"}
     },
 )
+@kafka_log_action("update_rate")
 async def update_rate(
     rate_schema: RateBaseSchema,
     session: AsyncSession = Depends(db_helper.session_getter),
@@ -137,6 +141,7 @@ async def update_rate(
         500: {"description": "Ошибка сервера при добавлении данных"}
     },
 )
+@kafka_log_action("delete_rate")
 async def delete_rate(
     rate_schema: RateWithoutRate,
     session: AsyncSession = Depends(db_helper.session_getter),
@@ -201,6 +206,7 @@ async def get_price(
         400: {"description": "Нет rate с таким названием"},
     },
 )
+@kafka_log_action("price_calculation")
 async def get_price(
     cargo_schema: CargoSchema,
     session: AsyncSession = Depends(db_helper.session_getter),

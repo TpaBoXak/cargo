@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from pydantic import PostgresDsn
+from pydantic import KafkaDsn
 
 from pydantic_settings import BaseSettings
 from pydantic_settings import SettingsConfigDict
@@ -28,6 +29,12 @@ class DatabaseConfig(BaseModel):
         "pk": "pk_%(table_name)s",
     }
 
+
+class KafkaConfig(BaseModel):
+    bootstrap_servers: KafkaDsn
+    topic: str
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(".env", ".env.template"),
@@ -38,7 +45,8 @@ class Settings(BaseSettings):
     run: RunConfig
     api: ApiPrefix = ApiPrefix()
     db: DatabaseConfig
+    kafka: KafkaConfig
 
 
 settings: Settings = Settings()
-print(settings.db.url, settings.run.port, settings.run.host)
+print(settings.db.url, settings.run.port, settings.run.host, settings.kafka.bootstrap_servers, settings.kafka.topic)

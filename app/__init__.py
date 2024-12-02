@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from fastapi.security import OAuth2PasswordBearer
-from fastapi.middleware.cors import CORSMiddleware
+from app.utils.kafka_logs import kafka_logger
 
 from app.models import DataBaseHelper
 from config import settings
 from .models import Base
+
 
 
 db_helper = DataBaseHelper(
@@ -20,10 +20,12 @@ db_helper = DataBaseHelper(
 async def lifespan(app: FastAPI):
     # startup
     print(str(settings.db.url))
+    await kafka_logger.start()
     yield
     # shutdown
     print("dispose engine")
     await db_helper.dispose()
+    await kafka_logger.stop()
 
 app = FastAPI(lifespan=lifespan)
 
