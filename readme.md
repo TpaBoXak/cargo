@@ -1,8 +1,8 @@
 # Запуск приложения
 ## Запуск приложения в докере
+0. Перед запуском выполнить dos2unix start_app.sh (Для windows)
 1. docker-compose -f docker-compose-docker.yaml up
 2. Перейти по сслыке в браузере: http://localhost:8000/docs для ознакомления с документацией
-3. Возможна проблема с start_app.sh. Ее решение dos2unix start_app.sh и повторение с первого пункта
 
 
 ## Запуск приложения локально
