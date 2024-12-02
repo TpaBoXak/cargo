@@ -8,7 +8,7 @@ COPY ./main.py /fastapi
 COPY ./alembic.ini /fastapi
 COPY ./config.py /fastapi
 COPY ./requirements.txt /fastapi
-COPY ./start.sh /fastapi
+COPY ./start_app.sh /fastapi
 COPY ./pyproject.toml /fastapi
 
 RUN pip install poetry
@@ -23,6 +23,6 @@ RUN echo "APP_CONF__DB__URL=postgresql+asyncpg://Arseniy:12345@pg:5432/cargo" > 
 
 RUN echo "APP_CONF__DB__ECHO=1" > /fastapi/.env.template
 
-RUN chmod +x /fastapi/start.sh
+RUN chmod +x /fastapi/start_app.sh
 
-ENTRYPOINT ["/fastapi/start.sh"]
+ENTRYPOINT ["/fastapi/start_app.sh"]
